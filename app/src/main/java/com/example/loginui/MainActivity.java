@@ -1,7 +1,7 @@
 package com.example.loginui;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.view.MotionEvent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button loginButton;
+    EditText passwordEditText;
 
 
     @Override
@@ -29,6 +30,29 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
+        passwordEditText = findViewById(R.id.password);
+
+
+        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2; // Index for the right drawable
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // Toggle password visibility
+                        if (passwordEditText.getInputType() == 129) { // 129 corresponds to InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            passwordEditText.setInputType(1); // 1 corresponds to InputType.TYPE_CLASS_TEXT
+                        } else {
+                            passwordEditText.setInputType(129);
+                        }
+                        // Move the cursor to the end of the text
+                        passwordEditText.setSelection(passwordEditText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
