@@ -17,13 +17,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText email;
     EditText password;
     Button loginButton;
     EditText passwordEditText;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,73 +56,96 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Perform the login action when "Done" is pressed
+                    String userEmail = email.getText().toString();
+                    String userPassword = password.getText().toString();
+                    performLogin(userEmail, userPassword);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Disable the login button to prevent multiple clicks
+                loginButton.setEnabled(false);
+
+                // Show a loading indicator, e.g., a ProgressBar
+
                 // Get user input
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
 
-                // You can check the credentials here
-                if (userEmail.equals("user") && userPassword.equals("1234")) {
-                    // Username and password match
-                    // Perform the API request here if needed
-
-                    // Make an API request
-                    OkHttpClient client = new OkHttpClient();
-                    FormBody formBody = new FormBody.Builder()
-                            .add("email", userEmail)
-                            .add("password", userPassword)
-                            .build();
-
-                    Request request = new Request.Builder()
-                            .url("https://ssforcenew.ssgbd.com/api/v2/login")
-                            .post(formBody)
-                            .build();
-
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (response.isSuccessful()) {
-                                // Handle a successful response here
-                                String responseData = response.body().string();
-                                // Parse and process responseData as needed
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
-                                // Handle an unsuccessful response here (e.g., show an error message)
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            // Handle network failure here (e.g., show a network error message)
-                            e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(MainActivity.this, "Network Error!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    // Username and password do not match
-                    Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
-                }
+                // Perform the login action
+                performLogin(userEmail, userPassword);
             }
         });
 
+    }
+
+    private void performLogin(String userEmail, String userPassword) {
+        // You can check the credentials here
+        if (userEmail.equals("user") && userPassword.equals("1234")) {
+            // Username and password match
+            // Perform the API request here if needed
+
+            // Make an API request
+            OkHttpClient client = new OkHttpClient();
+            FormBody formBody = new FormBody.Builder()
+                    .add("email", userEmail)
+                    .add("password", userPassword)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://ssforcenewdev.ssgbd.com/api/v2/login")
+                    .post(formBody)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        // Handle a successful response here
+                        String responseData = response.body().string();
+                        // Parse and process responseData as needed
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // Handle an unsuccessful response here (e.g., show an error message)
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    // Handle network failure here (e.g., show a network error message)
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Network Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        } else {
+            // Username and password do not match
+            Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
