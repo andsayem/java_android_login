@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // Toggle password visibility
-                        if (passwordEditText.getInputType() == 129) { // 129 corresponds to InputType.TYPE_TEXT_VARIATION_PASSWORD
-                            passwordEditText.setInputType(1); // 1 corresponds to InputType.TYPE_CLASS_TEXT
+                        if (passwordEditText.getInputType() == 129) {
+                            passwordEditText.setInputType(1);
+                            passwordEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_lock_24, 0, R.drawable.ic_eye_closed, 0); // Switch to "read" icon
                         } else {
                             passwordEditText.setInputType(129);
+                            passwordEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_lock_24, 0, R.drawable.ic_eye_open , 0); // Switch to "unread" icon
                         }
                         // Move the cursor to the end of the text
                         passwordEditText.setSelection(passwordEditText.getText().length());
