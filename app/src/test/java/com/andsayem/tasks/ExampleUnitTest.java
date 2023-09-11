@@ -1,4 +1,4 @@
-package com.example.loginui;
+package com.andsayem.tasks;
 
 import org.junit.Test;
 

@@ -14,7 +14,7 @@
         android:theme="@style/Theme.LoginUI"
         tools:targetApi="33">
         <activity
-            android:name=".MainActivity"
+            android:name="com.andsayem.tasks.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

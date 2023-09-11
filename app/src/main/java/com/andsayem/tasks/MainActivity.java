@@ -1,4 +1,4 @@
-package com.example.loginui;
+package com.andsayem.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.loginui.R;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
