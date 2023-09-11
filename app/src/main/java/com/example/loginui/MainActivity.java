@@ -3,9 +3,12 @@ package com.example.loginui;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         passwordEditText = findViewById(R.id.password);
-
-
         passwordEditText.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_RIGHT = 2; // Index for the right drawable
